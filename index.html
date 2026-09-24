@@ -1,0 +1,192 @@
+﻿<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>絵合わせ3D</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <a-scene cursor="rayOrigin: mouse">
+
+        <a-entity id="ctlR" laser-controls="hand: right" raycaster="lineColor: red;"></a-entity>
+        <a-entity id="ctlL" laser-controls="hand: left" raycaster="lineColor: yellow;"></a-entity>
+
+        <a-entity id="cards"></a-entity>
+        <a-sky color="#6EBAA7"></a-sky>
+        <a-box 
+            position="0 5.3 -3" 
+            width="3" 
+            scale="2 2 0.1" 
+            src="#eawase"></a-box>
+
+        <a-assets>
+            <img id=back src="back.png"></img>
+
+            <img id=momo src="flower_momo.png"></img>
+            <img id=pansy src="flower_pansy.png"></img>
+            <img id=nemofira src="IMG_7016.png"></img>
+            <img id=kosumosu src="IMG_7017.png"></img>
+            <img id=kamomiru src="IMG_7018.png"></img>
+            <img id=rose src="rose_blue.png"></img>
+            <img id=eawase src="eawase.png"></img>
+
+            <audio id="cardSound" src="card.mp3"></audio>
+            <audio id="correctSound" src="correct.mp3"></audio>
+            <audio id="wrongSound" src="wrong.mp3"></audio>
+            <audio id="clearSound" src="clear.mp3"></audio>
+            <audio id="bgm" src="maou_bgm_piano30.mp3" loop></audio>
+
+        </a-assets>
+
+    </a-scene>
+
+
+    <script>
+        let firstCard = null;
+        let secondCard = null;
+        let lock = false;
+        let matchedCount = 0;
+        let cards = [
+            "momo",
+            "pansy",
+            "nemofira",
+            "kosumosu",
+            "kamomiru",
+            "rose",
+
+            "momo",
+            "pansy",
+            "nemofira",
+            "kosumosu",
+            "kamomiru",
+            "rose",
+        ];
+        cards.sort(() => Math.random() - 0.5);
+
+
+
+        const parent = document.querySelector("#cards");
+
+        for (let y = 0; y < 3; y++) {
+            for (let x = 0; x < 4; x++) {
+
+                const box = document.createElement("a-box");
+
+                box.setAttribute("id", `box${y * 4 + x}`);
+                box.setAttribute("position", `${x * 2 - 3} ${3 - y * 2} -3`);
+                box.setAttribute("width", "1");
+                box.setAttribute("height", "1.5");
+                box.setAttribute("src", "#back");
+                box.setAttribute("data-image", cards[y * 4 + x]);
+
+
+                box.addEventListener("click", function () {
+
+                    if (lock) return;
+
+                    if (this.classList.contains("matched")) return;
+
+                    if (this === firstCard) return;
+
+                    let image = this.getAttribute("data-image");
+
+                    this.removeAttribute("animation");
+
+                    this.setAttribute(
+                        "animation",
+                        "property: rotation; from: 0 0 0; to: 0 180 0; dur: 500;"
+                    );
+
+                    this.setAttribute("src", "#" + image);
+
+                    const sound = document.querySelector("#cardSound");
+                    sound.currentTime = 0;
+                    sound.play();
+
+                    const bgm = document.querySelector("#bgm");
+
+                    if (bgm.paused) {
+                        bgm.volume = 0.3;
+                        bgm.play();
+}
+
+                    // 1枚目
+                    if (firstCard == null) {
+                        firstCard = this;
+                        return;
+                    }
+
+                    // 2枚目
+                    secondCard = this;
+
+                    // 同じ画像
+                    if (
+                        firstCard.getAttribute("data-image")
+                        ===
+                        secondCard.getAttribute("data-image")
+                    ) {
+
+                        firstCard.classList.add("matched");
+                        secondCard.classList.add("matched");
+
+                        matchedCount += 2;
+
+                        const correctSound = document.querySelector("#correctSound");
+                        correctSound.currentTime = 0;
+                        correctSound.play();
+
+                        if (matchedCount === cards.length) {
+
+                            const text = document.createElement("a-text");
+
+                            text.setAttribute("value", "CLEAR!");
+                            text.setAttribute("position", "-5.5 1 -1.5");
+                            text.setAttribute("scale", "15 15 15");
+                            text.setAttribute("color", "#00d5ff");
+
+                            const correctSound = document.querySelector("#clearSound");
+                            correctSound.currentTime = 0;
+                            correctSound.play();
+
+                            document.querySelector("a-scene")
+                                .appendChild(text);
+                        }
+
+                        firstCard = null;
+                        secondCard = null;
+
+                    } else {
+
+                        lock = true;
+
+                        setTimeout(() => {
+
+                            firstCard.setAttribute("src", "#back");
+                            secondCard.setAttribute("src", "#back");
+
+                            firstCard = null;
+                            secondCard = null;
+
+                            lock = false;
+
+                        }, 1000);
+
+                        const correctSound = document.querySelector("#wrongSound");
+                        correctSound.currentTime = 0;
+                        correctSound.play();
+                    }
+
+                });
+
+                parent.appendChild(box);
+            }
+        }
+
+
+    </script>
+
+</body>
+
+</html>
