@@ -2,13 +2,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>絵合わせ3D</title>
+    <title>神経衰弱</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
     <a-scene cursor="rayOrigin: mouse">
+    <a-camera position="0 1.6 2"></a-camera>
 
         <a-entity id="ctlR" laser-controls="hand: right" raycaster="lineColor: red;"></a-entity>
         <a-entity id="ctlL" laser-controls="hand: left" raycaster="lineColor: yellow;"></a-entity>
@@ -69,17 +70,17 @@
 
         const parent = document.querySelector("#cards");
 
-        for (let y = 0; y < 3; y++) {
-            for (let x = 0; x < 4; x++) {
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 5; x++) {
 
                 const box = document.createElement("a-box");
 
                 box.setAttribute("id", `box${y * 4 + x}`);
-                box.setAttribute("position", `${x * 2 - 3} ${3 - y * 2} -3`);
+                box.setAttribute("position", `${x * 1.5 - 3} ${4.5 - y * 2} -3`);
                 box.setAttribute("width", "1");
                 box.setAttribute("height", "1.5");
                 box.setAttribute("src", "#back");
-                box.setAttribute("data-image", cards[y * 4 + x]);
+                box.setAttribute("data-image", cards[y * 5 + x]);
 
 
                 box.addEventListener("click", function () {
