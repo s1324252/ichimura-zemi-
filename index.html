@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>神経衰弱</title>
+    <title>市村ゼミ 神経衰弱</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -16,29 +16,82 @@
 
         <a-entity id="cards"></a-entity>
         <a-sky src="#haikei"></a-sky>
-        
-        <!-- <a-box 
-            position="0 6 -3" 
-            width="3" 
-            scale="2 2 0.1" 
-            src="#eawase"></a-box> -->
 
         <a-box 
-            position="-2 7 -3" 
+            position="-2.8 7 -3" 
             scale="1.5 1.5 1.5"
             color="#87ceeb" ></a-box>
         <a-box 
-            position="0 7.5 -3"  
+            position="-2.8 7 -2.25" 
+            scale="1.5 1.5 0.01"
+            src="#o" ></a-box>
+
+        <a-box 
+            position="-0.8 7.5 -3"  
             scale="1.5 1.5 1.5"
             color="#87ceeb" ></a-box>
         <a-box 
-            position="2 7 -3" 
+            position="-0.8 7.5 -2.25" 
+            scale="1.5 1.5 0.01"
+            src="#hana" ></a-box>
+
+        <a-box 
+            position="1.2 7 -3" 
             scale="1.5 1.5 1.5"
             color="#87ceeb" ></a-box>
         <a-box 
-            position="4 7.5 -3" 
+            position="1.2 7 -2.25" 
+            scale="1.5 1.5 0.01"
+            src="#a" ></a-box>
+
+        <a-box 
+            position="3.2 7.5 -3" 
             scale="1.5 1.5 1.5"
             color="#87ceeb" ></a-box>
+        <a-box 
+            position="3.2 7.5 -2.25" 
+            scale="1.5 1.5 0.01"
+            src="#wa" ></a-box>
+
+        <a-box 
+            position="5.2 7 -3" 
+            scale="1.5 1.5 1.5"
+            color="#87ceeb" ></a-box>
+        <a-box 
+            position="5.2 7 -2.25" 
+            scale="1.5 1.5 0.01"
+            src="#se" ></a-box>
+
+        <a-box 
+            position="16 -2 -7" 
+            scale="3 5 3"
+            src="#hatena"
+            animation="property: rotation; to: 0 360 0; 
+            loop: true; dur: 3000; easing: linear;" ></a-box>
+        <a-box 
+            position="-17 2 -10" 
+            scale="6 8 6"
+            src="#hatena"
+            animation="property: rotation; to: 0 -360 0; 
+            loop: true; dur: 3000; easing: linear;" ></a-box>
+        <a-box 
+            position="-7 0 8" 
+            scale="3 5 3"
+            src="#hatena"
+            animation="property: rotation; to: 0 360 0; 
+            loop: true; dur: 3000; easing: linear;" ></a-box>
+        
+        <a-box 
+            position="27 0 -20" 
+            scale="12 16 12"
+            rotation="0 45 0"
+            src="#hatena" ></a-box>
+        <a-box 
+            position="23 15 -18" 
+            scale="9 13 9"
+            rotation="0 110 0"
+            src="#hatena" ></a-box>
+            
         
         <a-assets>
             <img id=back src="back.png"></img>
@@ -55,6 +108,15 @@
             <img id=tanpopo src="IMG_2601.png"></img>
             <img id=wasurenagusa src="IMG_2602.png"></img>
             <img id=haikei src="IMG_2598.jpeg"></img>
+            <img id=o src="o.png"></img>
+            <img id=hana src="hana.png"></img>
+            <img id=a src="a.png"></img>
+            <img id=wa src="wa.png"></img>
+            <img id=se src="se.png"></img>
+            <img id=hatena src="hatena.png"></img>
+
+
+
 
             <audio id="cardSound" src="card.mp3"></audio>
             <audio id="correctSound" src="correct.mp3"></audio>
@@ -107,10 +169,10 @@
                 const box = document.createElement("a-box");
 
                 box.setAttribute("id", `box${y * 4 + x}`);
-                box.setAttribute("position", `${x * 2 - 3} ${4.5 - y * 2} -3`);
-                box.setAttribute("width", "1");
-                box.setAttribute("height", "1.5");
-                box.setAttribute("src", "#back");
+                box.setAttribute("position", `${x * 3 - 4.8} ${5 - y * 2.3} -3`);
+                box.setAttribute("width", "1.5");
+                box.setAttribute("height", "2");
+                box.setAttribute("src", "#hatena");
                 box.setAttribute("data-image", cards[y * 5 + x]);
 
 
@@ -195,8 +257,8 @@
 
                         setTimeout(() => {
 
-                            firstCard.setAttribute("src", "#back");
-                            secondCard.setAttribute("src", "#back");
+                            firstCard.setAttribute("src", "#hatena");
+                            secondCard.setAttribute("src", "#hatena");
 
                             firstCard = null;
                             secondCard = null;
